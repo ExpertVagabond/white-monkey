@@ -5,6 +5,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>White Monkey — Web3 Consulting for China & APAC</title>
 <meta name="description" content="White Monkey bridges Western Web3 projects into China and APAC markets. Market entry, regulatory navigation, token launches, exchange listings, and KOL networks.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="og-image.png">
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="White Monkey — Web3 Consulting for China & APAC">
+<meta property="og:description" content="We bridge Western Web3 projects into Asia's most powerful markets. Strategy, execution, and connections that move the needle.">
+<meta property="og:image" content="https://white-monkey.pages.dev/og-image.png">
+<meta property="og:url" content="https://white-monkey.pages.dev">
+<meta property="og:site_name" content="White Monkey">
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="White Monkey — Web3 Consulting for China & APAC">
+<meta name="twitter:description" content="We bridge Western Web3 projects into Asia's most powerful markets. Strategy, execution, and connections that move the needle.">
+<meta name="twitter:image" content="https://white-monkey.pages.dev/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=General+Sans:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -228,6 +242,66 @@ nav.scrolled {
 }
 .nav-hamburger span::before { top: -5px; }
 .nav-hamburger span::after { top: 5px; }
+
+/* Hamburger active state */
+.nav-hamburger.active span { background: transparent; }
+.nav-hamburger.active span::before { top: 0; transform: rotate(45deg); }
+.nav-hamburger.active span::after { top: 0; transform: rotate(-45deg); }
+
+/* ── MOBILE MENU ── */
+.mobile-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: rgba(5,5,16,0.96);
+  backdrop-filter: blur(24px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+.mobile-menu.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+.mobile-menu a {
+  color: var(--text-primary);
+  text-decoration: none;
+  font-size: 1.8rem;
+  font-weight: 600;
+  padding: 0.8rem 0;
+  letter-spacing: 0.02em;
+  transition: color 0.2s;
+  transform: translateY(20px);
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+.mobile-menu.open a {
+  transform: translateY(0);
+  opacity: 1;
+}
+.mobile-menu.open a:nth-child(1) { transition-delay: 0.05s; }
+.mobile-menu.open a:nth-child(2) { transition-delay: 0.1s; }
+.mobile-menu.open a:nth-child(3) { transition-delay: 0.15s; }
+.mobile-menu.open a:nth-child(4) { transition-delay: 0.2s; }
+.mobile-menu.open a:nth-child(5) { transition-delay: 0.25s; }
+.mobile-menu.open a:nth-child(6) { transition-delay: 0.3s; }
+.mobile-menu.open a:nth-child(7) { transition-delay: 0.35s; }
+.mobile-menu a:hover { color: var(--gold); }
+.mobile-menu .mobile-cta {
+  margin-top: 1.5rem;
+  font-size: 1rem;
+  padding: 0.9rem 2.5rem;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-bright) 100%);
+  color: var(--bg-deep);
+  border-radius: var(--radius-pill);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
 
 /* ── PAGE CONTENT ── */
 .page-content { position: relative; z-index: 1; }
@@ -933,6 +1007,23 @@ footer {
   .stats-row { grid-template-columns: 1fr; }
 }
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "White Monkey",
+  "description": "Web3 consulting firm specializing in China and APAC market entry. Strategy, regulatory navigation, token launches, exchange listings, and KOL networks.",
+  "url": "https://white-monkey.pages.dev",
+  "logo": "https://white-monkey.pages.dev/og-image.png",
+  "areaServed": ["China", "Hong Kong", "Singapore", "South Korea", "Japan", "Vietnam", "Thailand", "UAE"],
+  "knowsAbout": ["Web3", "Blockchain", "Cryptocurrency", "DeFi", "Token Launches", "Exchange Listings"],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "email": "hello@whitemonkey.io",
+    "contactType": "sales"
+  }
+}
+</script>
 </head>
 <body>
 
@@ -962,8 +1053,19 @@ footer {
     <li><a href="#team">Team</a></li>
   </ul>
   <a href="https://calendly.com/purplesquirrelmediainc/30min" class="nav-cta" target="_blank" rel="noopener">Book a Call</a>
-  <button class="nav-hamburger" aria-label="Menu"><span></span></button>
+  <button class="nav-hamburger" id="hamburger" aria-label="Menu"><span></span></button>
 </nav>
+
+<!-- Mobile menu overlay -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" class="mobile-nav-link">About</a>
+  <a href="#process" class="mobile-nav-link">Process</a>
+  <a href="#services" class="mobile-nav-link">Services</a>
+  <a href="#markets" class="mobile-nav-link">Markets</a>
+  <a href="#results" class="mobile-nav-link">Results</a>
+  <a href="#team" class="mobile-nav-link">Team</a>
+  <a href="https://calendly.com/purplesquirrelmediainc/30min" class="mobile-cta mobile-nav-link" target="_blank" rel="noopener">Book a Call</a>
+</div>
 
 <!-- ── HERO ── -->
 <section class="hero">
@@ -1291,16 +1393,16 @@ footer {
     <div class="team-header reveal">
       <div class="section-eyebrow">
         <span class="section-eyebrow-line"></span>
-        Leadership
+        The Team
       </div>
       <h2 class="section-heading">Operators, not observers.</h2>
-      <p class="section-desc">Every team member has direct operational experience in APAC crypto markets.</p>
+      <p class="section-desc">A distributed crew of compliance-focused operators across USA, Canada, LATAM, Bali, Vietnam, Dubai, and Thailand. We assemble the right team for every engagement.</p>
     </div>
     <div class="team-grid">
-      <div class="team-card reveal"><div class="team-avatar"><span class="team-initials">TBA</span></div><div class="team-info"><div class="team-name">Managing Partner</div><div class="team-role">Strategy & Operations</div></div></div>
-      <div class="team-card reveal"><div class="team-avatar"><span class="team-initials">TBA</span></div><div class="team-info"><div class="team-name">Head of China</div><div class="team-role">Beijing & Shanghai Desk</div></div></div>
-      <div class="team-card reveal"><div class="team-avatar"><span class="team-initials">TBA</span></div><div class="team-info"><div class="team-name">Head of Listings</div><div class="team-role">Exchange Relations</div></div></div>
-      <div class="team-card reveal"><div class="team-avatar"><span class="team-initials">TBA</span></div><div class="team-info"><div class="team-name">Head of Compliance</div><div class="team-role">Regulatory & Legal</div></div></div>
+      <div class="team-card reveal"><div class="team-avatar"><span class="team-initials">🎯</span></div><div class="team-info"><div class="team-name">Strategy & Operations</div><div class="team-role">Go-to-market playbooks, tokenomics review, competitive positioning across APAC corridors</div></div></div>
+      <div class="team-card reveal"><div class="team-avatar"><span class="team-initials">🇨🇳</span></div><div class="team-info"><div class="team-name">China & Greater Asia Desk</div><div class="team-role">Native Mandarin operators in Beijing, Shanghai, Hong Kong, and Singapore</div></div></div>
+      <div class="team-card reveal"><div class="team-avatar"><span class="team-initials">📈</span></div><div class="team-info"><div class="team-name">Exchange & Listings</div><div class="team-role">Direct BD relationships with Tier-1 and Tier-2 exchanges across Asia</div></div></div>
+      <div class="team-card reveal"><div class="team-avatar"><span class="team-initials">⚖️</span></div><div class="team-info"><div class="team-name">Compliance & Legal</div><div class="team-role">VARA, MAS, SFC, JFSA frameworks. White glove regulatory navigation</div></div></div>
     </div>
   </div>
 </section>
@@ -1379,8 +1481,8 @@ footer {
             Book a Call
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
           </a>
-          <a href="https://t.me/" class="btn-ghost" target="_blank" rel="noopener">
-            Telegram
+          <a href="mailto:hello@whitemonkey.io" class="btn-ghost">
+            Email Us
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M17 7H7M17 7v10"/></svg>
           </a>
         </div>
@@ -1413,10 +1515,9 @@ footer {
         <a href="#services">KOL Networks</a>
       </div>
       <div class="footer-col">
-        <div class="footer-col-title">Social</div>
-        <a href="https://twitter.com/" target="_blank" rel="noopener">Twitter</a>
-        <a href="https://t.me/" target="_blank" rel="noopener">Telegram</a>
-        <a href="https://linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>
+        <div class="footer-col-title">Connect</div>
+        <a href="https://calendly.com/purplesquirrelmediainc/30min" target="_blank" rel="noopener">Book a Call</a>
+        <a href="mailto:hello@whitemonkey.io">Email</a>
       </div>
     </div>
     <div class="footer-right">
@@ -1470,6 +1571,22 @@ document.querySelectorAll('.faq-question').forEach(q => {
     const wasOpen = item.classList.contains('open');
     document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
     if (!wasOpen) item.classList.add('open');
+  });
+});
+
+// ── MOBILE MENU ──
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('active');
+  mobileMenu.classList.toggle('open');
+  document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+});
+document.querySelectorAll('.mobile-nav-link').forEach(link => {
+  link.addEventListener('click', () => {
+    hamburger.classList.remove('active');
+    mobileMenu.classList.remove('open');
+    document.body.style.overflow = '';
   });
 });
 
