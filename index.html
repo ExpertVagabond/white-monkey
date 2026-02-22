@@ -395,9 +395,20 @@ nav.scrolled {
   letter-spacing: 0.05em;
   color: var(--text-tertiary);
   white-space: nowrap;
-  transition: color 0.3s;
+  transition: all 0.3s;
+}
+.marquee-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.marquee-logo svg {
+  opacity: 0.35;
+  transition: opacity 0.3s;
+  flex-shrink: 0;
 }
 .marquee-item:hover { color: var(--text-secondary); }
+.marquee-item:hover svg { opacity: 0.6; }
 .marquee-divider {
   flex-shrink: 0;
   width: 4px; height: 4px;
@@ -991,27 +1002,118 @@ footer {
     <div class="trust-label">Trusted by leading protocols &amp; exchanges</div>
     <div style="overflow:hidden">
       <div class="marquee-track" id="marquee">
-        <span class="marquee-item">Binance</span><span class="marquee-divider"></span>
-        <span class="marquee-item">OKX</span><span class="marquee-divider"></span>
-        <span class="marquee-item">Gate.io</span><span class="marquee-divider"></span>
-        <span class="marquee-item">Bybit</span><span class="marquee-divider"></span>
-        <span class="marquee-item">Upbit</span><span class="marquee-divider"></span>
-        <span class="marquee-item">KuCoin</span><span class="marquee-divider"></span>
-        <span class="marquee-item">Huobi</span><span class="marquee-divider"></span>
-        <span class="marquee-item">MEXC</span><span class="marquee-divider"></span>
-        <span class="marquee-item">BitGet</span><span class="marquee-divider"></span>
-        <span class="marquee-item">Crypto.com</span><span class="marquee-divider"></span>
+
+        <span class="marquee-item marquee-logo">
+          <svg viewBox="0 0 24 24" fill="white" height="18"><path d="M12 1.5L6.75 6.75 9 9l3-3 3 3 2.25-2.25zM1.5 12l2.25-2.25L6 12l-2.25 2.25zM6.75 17.25L12 22.5l5.25-5.25L15 15l-3 3-3-3zM18 12l2.25-2.25L22.5 12l-2.25 2.25zM15 12l-3-3-3 3 3 3z"/></svg>
+          Binance
+        </span><span class="marquee-divider"></span>
+
+        <span class="marquee-item marquee-logo">
+          <svg viewBox="0 0 24 24" fill="white" height="16"><circle cx="6" cy="6" r="4.5"/><circle cx="18" cy="6" r="4.5"/><circle cx="6" cy="18" r="4.5"/><circle cx="18" cy="18" r="4.5"/></svg>
+          OKX
+        </span><span class="marquee-divider"></span>
+
+        <span class="marquee-item marquee-logo">
+          <svg viewBox="0 0 24 24" fill="white" height="16"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM16 14h4v2h-4v4h-2v-6z"/></svg>
+          Gate.io
+        </span><span class="marquee-divider"></span>
+
+        <span class="marquee-item marquee-logo">
+          <svg viewBox="0 0 24 24" fill="white" height="14"><path d="M2 6h8v12H2zm12 0h8l-4 6 4 6h-8l-4-6z"/></svg>
+          Bybit
+        </span><span class="marquee-divider"></span>
+
+        <span class="marquee-item marquee-logo">
+          <svg viewBox="0 0 24 24" fill="white" height="16"><path d="M12 2L3 20h18zM12 7l6 11H6z"/></svg>
+          Upbit
+        </span><span class="marquee-divider"></span>
+
+        <span class="marquee-item marquee-logo">
+          <svg viewBox="0 0 24 24" fill="white" height="16"><path d="M12 2l-2 6H4l5 4-2 6 5-4 5 4-2-6 5-4h-6z"/></svg>
+          KuCoin
+        </span><span class="marquee-divider"></span>
+
+        <span class="marquee-item marquee-logo">
+          <svg viewBox="0 0 24 24" fill="white" height="16"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 4c1.1 0 2 .9 2 2v2h-4V8c0-1.1.9-2 2-2zm4 10H8v-4h8v4z"/></svg>
+          LBANK
+        </span><span class="marquee-divider"></span>
+
+        <span class="marquee-item marquee-logo">
+          <svg viewBox="0 0 24 24" fill="white" height="15"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm-1 14H8v-3h3v3zm5 0h-3v-3h3v3zm0-5H8V8h8v3z"/></svg>
+          MEXC
+        </span><span class="marquee-divider"></span>
+
+        <span class="marquee-item marquee-logo">
+          <svg viewBox="0 0 24 24" fill="white" height="16"><path d="M20 4H4v16h16zM12 18l-6-6h4V8h4v4h4z"/></svg>
+          Bitget
+        </span><span class="marquee-divider"></span>
+
+        <span class="marquee-item marquee-logo">
+          <svg viewBox="0 0 24 24" fill="white" height="16"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2zm0-4V7h2v6z"/></svg>
+          Crypto.com
+        </span><span class="marquee-divider"></span>
+
+        <span class="marquee-item marquee-logo">
+          <svg viewBox="0 0 24 24" fill="white" height="14"><path d="M12 3c-5 0-9 4-9 9s4 9 9 9 9-4 9-9-4-9-9-9zm0 3a6 6 0 110 12 6 6 0 010-12z"/></svg>
+          HTX
+        </span><span class="marquee-divider"></span>
+
         <!-- duplicate for seamless loop -->
-        <span class="marquee-item">Binance</span><span class="marquee-divider"></span>
-        <span class="marquee-item">OKX</span><span class="marquee-divider"></span>
-        <span class="marquee-item">Gate.io</span><span class="marquee-divider"></span>
-        <span class="marquee-item">Bybit</span><span class="marquee-divider"></span>
-        <span class="marquee-item">Upbit</span><span class="marquee-divider"></span>
-        <span class="marquee-item">KuCoin</span><span class="marquee-divider"></span>
-        <span class="marquee-item">Huobi</span><span class="marquee-divider"></span>
-        <span class="marquee-item">MEXC</span><span class="marquee-divider"></span>
-        <span class="marquee-item">BitGet</span><span class="marquee-divider"></span>
-        <span class="marquee-item">Crypto.com</span><span class="marquee-divider"></span>
+        <span class="marquee-item marquee-logo">
+          <svg viewBox="0 0 24 24" fill="white" height="18"><path d="M12 1.5L6.75 6.75 9 9l3-3 3 3 2.25-2.25zM1.5 12l2.25-2.25L6 12l-2.25 2.25zM6.75 17.25L12 22.5l5.25-5.25L15 15l-3 3-3-3zM18 12l2.25-2.25L22.5 12l-2.25 2.25zM15 12l-3-3-3 3 3 3z"/></svg>
+          Binance
+        </span><span class="marquee-divider"></span>
+
+        <span class="marquee-item marquee-logo">
+          <svg viewBox="0 0 24 24" fill="white" height="16"><circle cx="6" cy="6" r="4.5"/><circle cx="18" cy="6" r="4.5"/><circle cx="6" cy="18" r="4.5"/><circle cx="18" cy="18" r="4.5"/></svg>
+          OKX
+        </span><span class="marquee-divider"></span>
+
+        <span class="marquee-item marquee-logo">
+          <svg viewBox="0 0 24 24" fill="white" height="16"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM16 14h4v2h-4v4h-2v-6z"/></svg>
+          Gate.io
+        </span><span class="marquee-divider"></span>
+
+        <span class="marquee-item marquee-logo">
+          <svg viewBox="0 0 24 24" fill="white" height="14"><path d="M2 6h8v12H2zm12 0h8l-4 6 4 6h-8l-4-6z"/></svg>
+          Bybit
+        </span><span class="marquee-divider"></span>
+
+        <span class="marquee-item marquee-logo">
+          <svg viewBox="0 0 24 24" fill="white" height="16"><path d="M12 2L3 20h18zM12 7l6 11H6z"/></svg>
+          Upbit
+        </span><span class="marquee-divider"></span>
+
+        <span class="marquee-item marquee-logo">
+          <svg viewBox="0 0 24 24" fill="white" height="16"><path d="M12 2l-2 6H4l5 4-2 6 5-4 5 4-2-6 5-4h-6z"/></svg>
+          KuCoin
+        </span><span class="marquee-divider"></span>
+
+        <span class="marquee-item marquee-logo">
+          <svg viewBox="0 0 24 24" fill="white" height="16"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 4c1.1 0 2 .9 2 2v2h-4V8c0-1.1.9-2 2-2zm4 10H8v-4h8v4z"/></svg>
+          LBANK
+        </span><span class="marquee-divider"></span>
+
+        <span class="marquee-item marquee-logo">
+          <svg viewBox="0 0 24 24" fill="white" height="15"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm-1 14H8v-3h3v3zm5 0h-3v-3h3v3zm0-5H8V8h8v3z"/></svg>
+          MEXC
+        </span><span class="marquee-divider"></span>
+
+        <span class="marquee-item marquee-logo">
+          <svg viewBox="0 0 24 24" fill="white" height="16"><path d="M20 4H4v16h16zM12 18l-6-6h4V8h4v4h4z"/></svg>
+          Bitget
+        </span><span class="marquee-divider"></span>
+
+        <span class="marquee-item marquee-logo">
+          <svg viewBox="0 0 24 24" fill="white" height="16"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2zm0-4V7h2v6z"/></svg>
+          Crypto.com
+        </span><span class="marquee-divider"></span>
+
+        <span class="marquee-item marquee-logo">
+          <svg viewBox="0 0 24 24" fill="white" height="14"><path d="M12 3c-5 0-9 4-9 9s4 9 9 9 9-4 9-9-4-9-9-9zm0 3a6 6 0 110 12 6 6 0 010-12z"/></svg>
+          HTX
+        </span><span class="marquee-divider"></span>
+
       </div>
     </div>
   </div>
