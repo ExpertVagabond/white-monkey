@@ -239,6 +239,74 @@ select option { background: var(--bg-base); color: var(--text-primary); }
 .status-dot.pending { background: var(--gold); box-shadow: 0 0 8px var(--gold); animation: glow 2s infinite; }
 @keyframes glow { 0%,100%{opacity:1} 50%{opacity:.3} }
 
+/* AI Platform cards */
+.ai-platforms { display: flex; flex-direction: column; gap: 14px; margin-bottom: 28px; }
+.ai-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-md); overflow: hidden;
+  backdrop-filter: blur(12px); transition: all 0.25s;
+}
+.ai-card:hover { border-color: var(--border-hover); }
+.ai-card-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 22px; cursor: pointer;
+}
+.ai-card-left { display: flex; align-items: center; gap: 14px; }
+.ai-logo {
+  width: 40px; height: 40px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem; font-weight: 700; flex-shrink: 0;
+}
+.ai-logo.claude { background: linear-gradient(135deg, #d4a27f, #c4916a); color: #fff; }
+.ai-logo.chatgpt { background: linear-gradient(135deg, #10a37f, #0d8c6d); color: #fff; }
+.ai-logo.gemini { background: linear-gradient(135deg, #4285f4, #8ab4f8); color: #fff; }
+.ai-card-info h4 { font-size: 0.88rem; font-weight: 600; color: var(--text-primary); margin-bottom: 2px; }
+.ai-card-info p { font-size: 0.72rem; color: var(--text-tertiary); font-weight: 400; }
+.ai-copy-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 18px; background: linear-gradient(135deg, var(--gold) 0%, #c49530 100%);
+  color: var(--bg-deep); font-size: 0.75rem; font-weight: 600;
+  font-family: var(--font); border: none; border-radius: var(--radius-pill);
+  cursor: pointer; transition: all 0.25s; white-space: nowrap;
+}
+.ai-copy-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(212,168,67,0.25); }
+.ai-copy-btn.copied { background: var(--teal); }
+.ai-card-preview {
+  display: none; padding: 0 22px 18px;
+}
+.ai-card-preview.open { display: block; animation: fadeUp 0.2s ease; }
+.ai-card-preview pre {
+  font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 0.72rem;
+  color: var(--text-secondary); line-height: 1.7; white-space: pre-wrap;
+  word-break: break-word; background: rgba(0,0,0,0.2); padding: 16px;
+  border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.03);
+  max-height: 200px; overflow-y: auto;
+}
+
+/* Divider */
+.agent-divider {
+  display: flex; align-items: center; gap: 12px;
+  margin: 28px 0 20px; color: var(--text-tertiary); font-size: 0.7rem;
+  font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em;
+}
+.agent-divider::before, .agent-divider::after {
+  content: ''; flex: 1; height: 1px; background: var(--border);
+}
+
+/* Collapsible API docs */
+.api-toggle {
+  width: 100%; padding: 14px 22px; background: var(--bg-card);
+  border: 1px solid var(--border); border-radius: var(--radius-md);
+  color: var(--text-secondary); font-family: var(--font); font-size: 0.82rem;
+  font-weight: 500; cursor: pointer; display: flex; align-items: center;
+  justify-content: space-between; transition: all 0.25s; margin-bottom: 14px;
+}
+.api-toggle:hover { border-color: var(--border-hover); color: var(--text-primary); }
+.api-toggle svg { transition: transform 0.25s; }
+.api-toggle.open svg { transform: rotate(180deg); }
+.api-docs { display: none; }
+.api-docs.open { display: block; animation: fadeUp 0.3s ease; }
+
 /* Interview choice */
 .interview-choice { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
 .choice-card {
@@ -388,9 +456,74 @@ select option { background: var(--bg-base); color: var(--text-primary); }
 
   <!-- Agent Panel -->
   <div class="panel" id="agentPanel">
-    <div class="api-card">
-      <h3>Step 1 — Submit application</h3>
-      <pre><span class="kw">POST</span> <span class="str" id="apiEndpoint">/api/orgs/white-monkey/apply</span>
+    <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:24px;line-height:1.6">
+      Paste the prompt below into your AI assistant. It will handle the entire application and interview process for you.
+    </p>
+
+    <div class="ai-platforms">
+      <!-- Claude -->
+      <div class="ai-card">
+        <div class="ai-card-header" onclick="togglePreview(this)">
+          <div class="ai-card-left">
+            <div class="ai-logo claude">C</div>
+            <div class="ai-card-info">
+              <h4>Claude</h4>
+              <p>Anthropic — Claude Code, API, or chat</p>
+            </div>
+          </div>
+          <button class="ai-copy-btn" onclick="event.stopPropagation();copyPrompt('claude',this)">Copy Prompt</button>
+        </div>
+        <div class="ai-card-preview" id="preview-claude">
+          <pre id="prompt-claude"></pre>
+        </div>
+      </div>
+
+      <!-- ChatGPT -->
+      <div class="ai-card">
+        <div class="ai-card-header" onclick="togglePreview(this)">
+          <div class="ai-card-left">
+            <div class="ai-logo chatgpt">G</div>
+            <div class="ai-card-info">
+              <h4>ChatGPT</h4>
+              <p>OpenAI — GPT-4o, o1, or custom GPTs</p>
+            </div>
+          </div>
+          <button class="ai-copy-btn" onclick="event.stopPropagation();copyPrompt('chatgpt',this)">Copy Prompt</button>
+        </div>
+        <div class="ai-card-preview" id="preview-chatgpt">
+          <pre id="prompt-chatgpt"></pre>
+        </div>
+      </div>
+
+      <!-- Gemini -->
+      <div class="ai-card">
+        <div class="ai-card-header" onclick="togglePreview(this)">
+          <div class="ai-card-left">
+            <div class="ai-logo gemini">G</div>
+            <div class="ai-card-info">
+              <h4>Gemini</h4>
+              <p>Google — Gemini 2.5, AI Studio, or Vertex</p>
+            </div>
+          </div>
+          <button class="ai-copy-btn" onclick="event.stopPropagation();copyPrompt('gemini',this)">Copy Prompt</button>
+        </div>
+        <div class="ai-card-preview" id="preview-gemini">
+          <pre id="prompt-gemini"></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="agent-divider">or use the API directly</div>
+
+    <button class="api-toggle" onclick="toggleApiDocs(this)">
+      Raw API Documentation
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
+
+    <div class="api-docs" id="apiDocs">
+      <div class="api-card">
+        <h3>Step 1 — Submit application</h3>
+        <pre><span class="kw">POST</span> <span class="str" id="apiEndpoint">https://vox-api.purplesquirrelnetworks.workers.dev/api/orgs/white-monkey/apply</span>
 <span class="dim">Content-Type: application/json</span>
 
 {
@@ -402,19 +535,19 @@ select option { background: var(--bg-base); color: var(--text-primary); }
     <span class="kw">"description"</span>: <span class="str">"..."</span>
   }
 }</pre>
-      <button class="copy-btn" onclick="copyBlock(this)">Copy</button>
-    </div>
+        <button class="copy-btn" onclick="copyBlock(this)">Copy</button>
+      </div>
 
-    <div class="api-card">
-      <h3>Step 2 — Get interview questions</h3>
-      <pre><span class="kw">GET</span> <span class="str">/api/applications/{id}/agent-interview</span>
+      <div class="api-card">
+        <h3>Step 2 — Get interview questions</h3>
+        <pre><span class="kw">GET</span> <span class="str">/api/applications/{id}/agent-interview</span>
 
-<span class="dim">→ Returns { questions: [...], submit_url: "..." }</span></pre>
-    </div>
+<span class="dim">Returns { questions: [...], submit_url: "..." }</span></pre>
+      </div>
 
-    <div class="api-card">
-      <h3>Step 3 — Submit answers</h3>
-      <pre><span class="kw">POST</span> <span class="str">/api/applications/{id}/agent-answers</span>
+      <div class="api-card">
+        <h3>Step 3 — Submit answers</h3>
+        <pre><span class="kw">POST</span> <span class="str">/api/applications/{id}/agent-answers</span>
 
 {
   <span class="kw">"answers"</span>: [
@@ -422,7 +555,8 @@ select option { background: var(--bg-base); color: var(--text-primary); }
     <span class="str">"Answer to question 2..."</span>
   ]
 }</pre>
-      <button class="copy-btn" onclick="copyBlock(this)">Copy</button>
+        <button class="copy-btn" onclick="copyBlock(this)">Copy</button>
+      </div>
     </div>
 
     <div class="status-bar">
@@ -595,6 +729,102 @@ function copyBlock(btn) {
   navigator.clipboard.writeText(pre.textContent.trim());
   btn.innerHTML = '✓ Copied'; btn.classList.add('copied');
   setTimeout(() => { btn.innerHTML = 'Copy'; btn.classList.remove('copied'); }, 2000);
+}
+
+// ── AI Platform Prompts ──
+
+const API = 'https://vox-api.purplesquirrelnetworks.workers.dev';
+
+const prompts = {
+  claude: `You are applying to White Monkey, a Web3 consulting firm for APAC market entry, on behalf of your user.
+
+Complete these 3 steps using HTTP requests:
+
+STEP 1: Submit the application
+POST ${API}/api/orgs/white-monkey/apply
+Content-Type: application/json
+
+{
+  "applicant_name": "[Your name or company]",
+  "applicant_email": "[Your email]",
+  "applicant_type": "agent",
+  "form_data": {
+    "project_name": "[Project/company name]",
+    "project_stage": "[Idea/MVP/Testnet/Mainnet/Revenue]",
+    "chain": "[Primary blockchain]",
+    "description": "[What you're building and what APAC markets you're targeting]",
+    "website": "[URL if applicable]",
+    "telegram": "[@handle]"
+  }
+}
+
+Save the application_id from the response.
+
+STEP 2: Get interview questions
+GET ${API}/api/applications/{application_id}/agent-interview
+
+STEP 3: Submit thoughtful answers to each question
+POST ${API}/api/applications/{application_id}/agent-answers
+Content-Type: application/json
+
+{
+  "answers": ["Answer 1...", "Answer 2...", "Answer 3...", "Answer 4...", "Answer 5..."]
+}
+
+Ask the user for their project details before starting. Give detailed, authentic answers to the interview questions based on what the user tells you.`,
+
+  chatgpt: `I need you to apply to White Monkey (a Web3 consulting firm for APAC markets) on my behalf using their API.
+
+Here's the process — make HTTP requests for each step:
+
+1. POST to ${API}/api/orgs/white-monkey/apply with my details as JSON (set applicant_type to "agent", include form_data with project_name, project_stage, chain, description, website, telegram)
+
+2. GET ${API}/api/applications/{id}/agent-interview to receive interview questions
+
+3. POST ${API}/api/applications/{id}/agent-answers with an "answers" array responding to each question
+
+Ask me for my project details first, then execute all 3 steps. For the interview, write thoughtful answers based on what I tell you — don't just repeat my words, expand on them like you're pitching to a consulting firm.`,
+
+  gemini: `Help me apply to White Monkey, a Web3 consulting firm specializing in China & APAC market entry.
+
+The application has 3 API steps:
+
+Step 1 — Submit application:
+POST ${API}/api/orgs/white-monkey/apply
+Body: { "applicant_name": "...", "applicant_email": "...", "applicant_type": "agent", "form_data": { "project_name": "...", "project_stage": "Idea|MVP|Testnet|Mainnet|Revenue", "chain": "...", "description": "...", "website": "...", "telegram": "..." } }
+
+Step 2 — Get interview questions:
+GET ${API}/api/applications/{application_id}/agent-interview
+
+Step 3 — Submit answers:
+POST ${API}/api/applications/{application_id}/agent-answers
+Body: { "answers": ["...", "...", "..."] }
+
+First ask me about my project, then complete all 3 steps. Write compelling interview answers that demonstrate real understanding of APAC markets.`
+};
+
+// Populate prompt previews
+Object.keys(prompts).forEach(k => {
+  const el = document.getElementById('prompt-' + k);
+  if (el) el.textContent = prompts[k];
+});
+
+function togglePreview(header) {
+  const card = header.closest('.ai-card');
+  const preview = card.querySelector('.ai-card-preview');
+  preview.classList.toggle('open');
+}
+
+function copyPrompt(platform, btn) {
+  navigator.clipboard.writeText(prompts[platform]);
+  btn.textContent = '✓ Copied';
+  btn.classList.add('copied');
+  setTimeout(() => { btn.textContent = 'Copy Prompt'; btn.classList.remove('copied'); }, 2000);
+}
+
+function toggleApiDocs(btn) {
+  btn.classList.toggle('open');
+  document.getElementById('apiDocs').classList.toggle('open');
 }
 
 loadForm();
