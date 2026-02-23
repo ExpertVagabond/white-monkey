@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apply — White Monkey</title>
+<meta name="description" content="Apply to work with White Monkey. AI-powered intake form and voice interview for Web3 projects entering APAC markets.">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=General+Sans:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+:root {
+  --bg-deep: #050510;
+  --bg-base: #08081a;
+  --bg-surface: rgba(255,255,255,0.025);
+  --bg-card: rgba(255,255,255,0.035);
+  --bg-card-hover: rgba(255,255,255,0.065);
+  --border: rgba(255,255,255,0.055);
+  --border-hover: rgba(255,255,255,0.12);
+  --border-gold: rgba(212,168,67,0.15);
+  --text-primary: #ece9f5;
+  --text-secondary: rgba(236,233,245,0.5);
+  --text-tertiary: rgba(236,233,245,0.25);
+  --gold: #d4a843;
+  --gold-light: #f0d88a;
+  --gold-bright: #ffd866;
+  --gold-glow: rgba(212,168,67,0.12);
+  --crimson: #e63946;
+  --crimson-glow: rgba(230,57,70,0.1);
+  --purple: #7c5cbf;
+  --teal: #4ecdc4;
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-pill: 100px;
+  --font: 'General Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-cjk: 'Noto Sans SC', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  font-family: var(--font);
+  font-weight: 400;
+  line-height: 1.65;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+::selection { background: var(--gold); color: var(--bg-deep); }
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 10px; }
+
+/* Grain */
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.02'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 9999;
+}
+
+/* Cursor glow */
+.cursor-glow {
+  position: fixed; width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(212,168,67,0.04) 0%, transparent 60%);
+  pointer-events: none; z-index: 0;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.3s;
+  will-change: left, top;
+}
+
+/* Orbs */
+.orb { position: fixed; border-radius: 50%; filter: blur(140px); pointer-events: none; z-index: 0; will-change: transform; }
+.orb-1 { width: 900px; height: 900px; background: radial-gradient(circle, rgba(212,168,67,0.1) 0%, transparent 65%); top: -25%; right: -20%; animation: orbFloat1 22s ease-in-out infinite; }
+.orb-2 { width: 700px; height: 700px; background: radial-gradient(circle, rgba(230,57,70,0.08) 0%, transparent 65%); bottom: 5%; left: -15%; animation: orbFloat2 28s ease-in-out infinite; }
+@keyframes orbFloat1 { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(-100px,80px) scale(1.06)} 66%{transform:translate(60px,-50px) scale(0.94)} }
+@keyframes orbFloat2 { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(80px,-100px) scale(1.1)} 66%{transform:translate(-50px,60px) scale(0.9)} }
+
+/* Nav */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  padding: 0.7rem 2.5rem;
+  background: rgba(5,5,16,0.75);
+  backdrop-filter: blur(24px) saturate(1.5);
+  -webkit-backdrop-filter: blur(24px) saturate(1.5);
+  border-bottom: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.nav-brand { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; color: var(--text-primary); }
+.nav-logo { width: 36px; height: 36px; border-radius: 10px; background: rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; }
+.nav-wordmark { font-size: 1.05rem; font-weight: 600; letter-spacing: -0.01em; }
+.nav-cta {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.55rem 1.3rem;
+  background: linear-gradient(135deg, var(--gold) 0%, #c49530 100%);
+  color: var(--bg-deep); font-size: 0.8rem; font-weight: 600;
+  border-radius: var(--radius-pill); text-decoration: none; border: none; cursor: pointer; transition: all 0.3s;
+}
+.nav-cta:hover { transform: translateY(-1px); box-shadow: 0 8px 32px rgba(212,168,67,0.3); }
+
+/* Container */
+.container { max-width: 620px; margin: 0 auto; padding: 120px 24px 80px; position: relative; z-index: 1; }
+
+/* Header */
+.apply-header { margin-bottom: 40px; }
+.section-eyebrow {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  font-size: 0.7rem; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.18em; color: var(--gold); margin-bottom: 1.25rem;
+}
+.section-eyebrow-line { width: 28px; height: 1px; background: var(--gold); opacity: 0.4; }
+.apply-header h1 { font-size: 2.4rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 10px; line-height: 1.2; }
+.apply-header p { color: var(--text-secondary); font-size: 0.95rem; font-weight: 400; }
+
+/* Toggle */
+.path-toggle {
+  display: flex; background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-pill); overflow: hidden; margin-bottom: 36px;
+  backdrop-filter: blur(12px);
+}
+.path-toggle button {
+  flex: 1; padding: 14px 20px; background: transparent; border: none;
+  color: var(--text-secondary); font-family: var(--font); font-size: 0.85rem;
+  font-weight: 600; cursor: pointer; display: flex; align-items: center;
+  justify-content: center; gap: 10px; transition: all 0.25s; position: relative;
+  border-radius: var(--radius-pill);
+}
+.path-toggle button.active { color: var(--bg-deep); background: linear-gradient(135deg, var(--gold) 0%, #c49530 100%); }
+.path-toggle button:hover:not(.active) { color: var(--text-primary); background: rgba(255,255,255,0.03); }
+
+/* Panel */
+.panel { display: none; animation: fadeUp 0.3s ease; }
+.panel.active { display: block; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+/* Progress */
+.progress-wrap { margin-bottom: 32px; }
+.progress-meta { display: flex; justify-content: space-between; margin-bottom: 8px; }
+.progress-label { font-size: 0.7rem; font-weight: 600; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.15em; }
+.progress-pct { font-size: 0.7rem; font-weight: 600; color: var(--gold); letter-spacing: 0.05em; }
+.progress-bar { width: 100%; height: 3px; background: rgba(255,255,255,0.04); border-radius: 2px; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-bright)); border-radius: 2px; transition: width 0.4s ease; }
+
+/* Form fields */
+.form-group { margin-bottom: 24px; }
+.form-group label { display: block; font-size: 0.82rem; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; }
+.form-group .hint { font-size: 0.72rem; color: var(--text-tertiary); margin-bottom: 8px; font-weight: 400; }
+input, select, textarea {
+  width: 100%; padding: 14px 18px;
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); color: var(--text-primary);
+  font-family: var(--font); font-size: 0.9rem; transition: all 0.25s; outline: none;
+}
+input::placeholder, textarea::placeholder { color: var(--text-tertiary); font-weight: 300; }
+input:focus, select:focus, textarea:focus {
+  border-color: var(--border-gold); background: var(--bg-card-hover);
+  box-shadow: 0 0 0 3px var(--gold-glow);
+}
+textarea { resize: vertical; min-height: 110px; line-height: 1.6; }
+select {
+  appearance: none; cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ece9f5' fill-opacity='0.25' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 16px center;
+}
+select option { background: var(--bg-base); color: var(--text-primary); }
+.required::after { content: ' *'; color: var(--crimson); font-weight: 400; }
+
+/* Buttons */
+.btn-glow {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem;
+  padding: 0.9rem 2.2rem; width: 100%;
+  background: linear-gradient(135deg, var(--gold) 0%, #c49530 100%);
+  color: var(--bg-deep); font-family: var(--font); font-size: 0.92rem; font-weight: 600;
+  border-radius: var(--radius-pill); text-decoration: none; border: none; cursor: pointer;
+  transition: all 0.3s; position: relative;
+}
+.btn-glow::before {
+  content: ''; position: absolute; inset: -3px;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(135deg, var(--gold-bright), var(--crimson));
+  z-index: -1; opacity: 0; filter: blur(20px); transition: opacity 0.4s;
+}
+.btn-glow:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(212,168,67,0.25); }
+.btn-glow:hover::before { opacity: 0.6; }
+.btn-glow:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
+
+.btn-ghost {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem;
+  padding: 0.9rem 2.2rem; width: 100%;
+  background: var(--bg-card); border: 1px solid var(--border);
+  color: var(--text-primary); font-family: var(--font); font-size: 0.92rem; font-weight: 500;
+  border-radius: var(--radius-pill); text-decoration: none; cursor: pointer;
+  backdrop-filter: blur(12px); transition: all 0.3s; margin-top: 12px;
+}
+.btn-ghost:hover { border-color: var(--border-hover); background: var(--bg-card-hover); }
+
+/* Spinner */
+.spinner { width: 18px; height: 18px; border: 2px solid rgba(5,5,16,.15); border-top-color: var(--bg-deep); border-radius: 50%; animation: spin .6s linear infinite; display: inline-block; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Agent panel */
+.api-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-md); padding: 28px; margin-bottom: 20px;
+  position: relative; overflow: hidden; backdrop-filter: blur(12px);
+}
+.api-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-gold), transparent);
+}
+.api-card h3 {
+  font-size: 0.72rem; color: var(--gold); margin-bottom: 14px;
+  text-transform: uppercase; letter-spacing: 0.15em; font-weight: 600;
+}
+.api-card pre {
+  font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 0.76rem;
+  color: var(--text-secondary); line-height: 1.8; white-space: pre-wrap; word-break: break-all;
+}
+.api-card pre .kw { color: var(--gold); }
+.api-card pre .str { color: var(--teal); }
+.api-card pre .dim { color: var(--text-tertiary); }
+.copy-btn {
+  display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px;
+  background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+  border-radius: 8px; color: var(--text-secondary); font-size: 0.72rem;
+  font-family: monospace; cursor: pointer; margin-top: 14px; transition: all 0.2s;
+}
+.copy-btn:hover { border-color: var(--border-gold); color: var(--text-primary); }
+.copy-btn.copied { color: var(--teal); border-color: rgba(78,205,196,0.3); }
+
+/* Status */
+.status-bar { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 20px; font-size: 0.82rem; color: var(--text-tertiary); }
+.status-dot { width: 8px; height: 8px; border-radius: 50%; }
+.status-dot.pending { background: var(--gold); box-shadow: 0 0 8px var(--gold); animation: glow 2s infinite; }
+@keyframes glow { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+/* Interview choice */
+.interview-choice { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
+.choice-card {
+  padding: 24px 16px; background: var(--bg-card); border: 1.5px solid var(--border);
+  border-radius: var(--radius-md); cursor: pointer; transition: all 0.25s; text-align: center;
+  backdrop-filter: blur(12px);
+}
+.choice-card:hover { border-color: var(--border-hover); background: var(--bg-card-hover); }
+.choice-card.selected { border-color: var(--border-gold); background: var(--gold-glow); box-shadow: 0 0 0 3px var(--gold-glow); }
+.choice-card svg { margin-bottom: 10px; color: var(--text-tertiary); transition: color 0.25s; }
+.choice-card.selected svg { color: var(--gold); }
+.choice-card .choice-title { font-size: 0.88rem; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; }
+.choice-card .choice-desc { font-size: 0.72rem; color: var(--text-tertiary); font-weight: 400; }
+.phone-input-wrap { margin-top: 16px; display: none; animation: fadeUp 0.3s ease; }
+.phone-input-wrap.show { display: block; }
+.phone-input-wrap label { display: block; font-size: 0.78rem; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; }
+.call-status { text-align: center; padding: 20px; color: var(--text-secondary); font-size: 0.85rem; }
+.call-status .ring-icon { display: inline-block; animation: ring .8s ease-in-out infinite alternate; }
+@keyframes ring { 0%{transform:rotate(-15deg)} 100%{transform:rotate(15deg)} }
+
+/* Success card */
+.success-card {
+  text-align: center; padding: 64px 36px; background: var(--bg-card);
+  border: 1px solid var(--border); border-radius: var(--radius-lg);
+  backdrop-filter: blur(16px); position: relative; overflow: hidden;
+}
+.success-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-gold), transparent);
+}
+.success-icon {
+  width: 72px; height: 72px; border-radius: 50%;
+  background: var(--gold-glow); border: 2px solid var(--gold);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.8rem; margin: 0 auto 20px;
+  animation: scaleIn 0.4s cubic-bezier(.175,.885,.32,1.275);
+}
+@keyframes scaleIn { from{transform:scale(0)} to{transform:scale(1)} }
+.success-card h2 { font-size: 1.6rem; font-weight: 700; color: var(--text-primary); margin-bottom: 10px; letter-spacing: -0.02em; }
+.success-card p { color: var(--text-secondary); font-size: 0.92rem; margin-bottom: 28px; font-weight: 400; }
+.success-card a.btn-glow { text-decoration: none; }
+
+/* CJK accent */
+.cjk { font-family: var(--font-cjk); }
+
+/* Responsive */
+@media (max-width: 640px) {
+  nav { padding: 0.7rem 1.25rem; }
+  .container { padding: 100px 16px 60px; }
+  .apply-header h1 { font-size: 1.8rem; }
+  .interview-choice { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="cursor-glow" id="cursorGlow"></div>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+
+<nav>
+  <a href="/" class="nav-brand">
+    <div class="nav-logo">🙈</div>
+    <span class="nav-wordmark">White Monkey</span>
+  </a>
+  <a href="/apply/" class="nav-cta">Apply</a>
+</nav>
+
+<div class="container">
+  <div class="apply-header">
+    <div class="section-eyebrow">
+      <span class="section-eyebrow-line"></span>
+      Client Intake
+      <span class="section-eyebrow-line"></span>
+    </div>
+    <h1 id="formTitle">Apply to White Monkey</h1>
+    <p id="formDescription">Tell us about your project. After submitting, you'll do a quick AI voice interview.</p>
+  </div>
+
+  <!-- Toggle -->
+  <div class="path-toggle">
+    <button class="active" id="btnHuman" onclick="setPath('human')">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 00-16 0"/></svg>
+      I'm a Human
+    </button>
+    <button id="btnAgent" onclick="setPath('agent')">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/></svg>
+      I'm an Agent
+    </button>
+  </div>
+
+  <!-- Human Panel -->
+  <div class="panel active" id="humanPanel">
+    <div class="progress-wrap">
+      <div class="progress-meta">
+        <span class="progress-label">Progress</span>
+        <span class="progress-pct" id="progressPct">0%</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    </div>
+
+    <form id="applyForm" onsubmit="return handleSubmit(event)">
+      <div id="formFields"></div>
+      <button type="submit" class="btn-glow" id="submitBtn">
+        Submit Application
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </button>
+    </form>
+
+    <div id="submitSuccess" style="display:none">
+      <div class="success-card">
+        <div class="success-icon">✓</div>
+        <h2>Application submitted</h2>
+        <p>Choose how you'd like to do your AI interview — about 5 minutes.</p>
+
+        <div class="interview-choice">
+          <div class="choice-card selected" onclick="selectMethod('browser')" id="choiceBrowser">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 18.5a6.5 6.5 0 006.5-6.5V6a6.5 6.5 0 00-13 0v6a6.5 6.5 0 006.5 6.5z"/><path d="M12 18.5V22m-4 0h8"/></svg>
+            <div class="choice-title">Browser voice</div>
+            <div class="choice-desc">Talk via your microphone</div>
+          </div>
+          <div class="choice-card" onclick="selectMethod('phone')" id="choicePhone">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+            <div class="choice-title">Call my phone</div>
+            <div class="choice-desc">We'll call you right now</div>
+          </div>
+        </div>
+
+        <div class="phone-input-wrap" id="phoneInputWrap">
+          <label>Your phone number (with country code)</label>
+          <input type="tel" id="phoneForCall" placeholder="+1 555 123 4567">
+        </div>
+
+        <a id="interviewLink" href="#" class="btn-glow" style="text-decoration:none" onclick="return startInterview(event)">
+          Start Voice Interview
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+
+        <div id="callStatus" class="call-status" style="display:none">
+          <span class="ring-icon">📞</span> Calling you now... pick up to begin your interview.
+        </div>
+
+        <button class="btn-ghost" onclick="window.location.href='/thanks/'">Skip for now</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Agent Panel -->
+  <div class="panel" id="agentPanel">
+    <div class="api-card">
+      <h3>Step 1 — Submit application</h3>
+      <pre><span class="kw">POST</span> <span class="str" id="apiEndpoint">/api/orgs/white-monkey/apply</span>
+<span class="dim">Content-Type: application/json</span>
+
+{
+  <span class="kw">"applicant_name"</span>: <span class="str">"Your Agent Name"</span>,
+  <span class="kw">"applicant_email"</span>: <span class="str">"agent@example.com"</span>,
+  <span class="kw">"applicant_type"</span>: <span class="str">"agent"</span>,
+  <span class="kw">"form_data"</span>: {
+    <span class="kw">"project_name"</span>: <span class="str">"..."</span>,
+    <span class="kw">"description"</span>: <span class="str">"..."</span>
+  }
+}</pre>
+      <button class="copy-btn" onclick="copyBlock(this)">Copy</button>
+    </div>
+
+    <div class="api-card">
+      <h3>Step 2 — Get interview questions</h3>
+      <pre><span class="kw">GET</span> <span class="str">/api/applications/{id}/agent-interview</span>
+
+<span class="dim">→ Returns { questions: [...], submit_url: "..." }</span></pre>
+    </div>
+
+    <div class="api-card">
+      <h3>Step 3 — Submit answers</h3>
+      <pre><span class="kw">POST</span> <span class="str">/api/applications/{id}/agent-answers</span>
+
+{
+  <span class="kw">"answers"</span>: [
+    <span class="str">"Answer to question 1..."</span>,
+    <span class="str">"Answer to question 2..."</span>
+  ]
+}</pre>
+      <button class="copy-btn" onclick="copyBlock(this)">Copy</button>
+    </div>
+
+    <div class="status-bar">
+      <span class="status-dot pending"></span>
+      Waiting for agent connection
+    </div>
+  </div>
+</div>
+
+<script>
+const API_BASE = 'https://vox-api.purplesquirrelnetworks.workers.dev';
+const orgSlug = 'white-monkey';
+const formSlug = 'client-intake';
+let currentPath = 'human';
+let formConfig = null;
+let interviewMethod = 'browser';
+let submittedAppId = null;
+
+// Cursor glow
+const glow = document.getElementById('cursorGlow');
+document.addEventListener('mousemove', e => { glow.style.left = e.clientX + 'px'; glow.style.top = e.clientY + 'px'; });
+
+function setPath(path) {
+  currentPath = path;
+  document.getElementById('btnHuman').classList.toggle('active', path === 'human');
+  document.getElementById('btnAgent').classList.toggle('active', path === 'agent');
+  document.getElementById('humanPanel').classList.toggle('active', path === 'human');
+  document.getElementById('agentPanel').classList.toggle('active', path === 'agent');
+}
+
+async function loadForm() {
+  try {
+    const res = await fetch(`${API_BASE}/api/orgs/${orgSlug}/forms/${formSlug}`);
+    if (!res.ok) throw new Error('Form not found');
+    formConfig = await res.json();
+    document.getElementById('formTitle').textContent = formConfig.name ? `Apply — ${formConfig.name}` : 'Apply to White Monkey';
+    if (formConfig.description) document.getElementById('formDescription').textContent = formConfig.description;
+    document.getElementById('apiEndpoint').textContent = `${API_BASE}/api/orgs/${orgSlug}/apply`;
+    renderFields(formConfig.fields);
+  } catch (err) {
+    renderDefaultFields();
+  }
+}
+
+function renderFields(fields) {
+  const container = document.getElementById('formFields');
+  container.innerHTML = '';
+  fields.forEach(field => {
+    const group = document.createElement('div');
+    group.className = 'form-group';
+    const req = field.required ? 'required' : '';
+    const labelClass = field.required ? 'required' : '';
+    let input = '';
+    switch (field.type) {
+      case 'select':
+        const opts = (field.options || []).map(o => `<option value="${o}">${o}</option>`).join('');
+        input = `<select name="${field.name}" ${req}><option value="">Select...</option>${opts}</select>`;
+        break;
+      case 'textarea':
+        input = `<textarea name="${field.name}" placeholder="${field.placeholder || ''}" ${req}></textarea>`;
+        break;
+      case 'email':
+        input = `<input type="email" name="${field.name}" placeholder="${field.placeholder || ''}" ${req}>`;
+        break;
+      case 'tel':
+        input = `<input type="tel" name="${field.name}" placeholder="${field.placeholder || ''}" ${req}>`;
+        break;
+      case 'url':
+        input = `<input type="url" name="${field.name}" placeholder="${field.placeholder || ''}" ${req}>`;
+        break;
+      default:
+        input = `<input type="text" name="${field.name}" placeholder="${field.placeholder || ''}" ${req}>`;
+    }
+    group.innerHTML = `<label class="${labelClass}">${field.label}</label>${field.hint ? `<div class="hint">${field.hint}</div>` : ''}${input}`;
+    container.appendChild(group);
+  });
+  container.addEventListener('input', updateProgress);
+}
+
+function renderDefaultFields() {
+  const fields = [
+    { name: 'applicant_name', label: 'Your Name', type: 'text', required: true, placeholder: 'Jane Smith' },
+    { name: 'applicant_email', label: 'Email', type: 'email', required: true, placeholder: 'jane@protocol.xyz' },
+    { name: 'project_name', label: 'Project / Company Name', type: 'text', required: true, placeholder: 'Acme Protocol' },
+    { name: 'project_stage', label: 'Project Stage', type: 'select', required: true, options: ['Idea', 'MVP', 'Testnet', 'Mainnet', 'Revenue'] },
+    { name: 'description', label: 'Describe your project and what you need', type: 'textarea', required: true, placeholder: 'What are you building? What APAC markets are you targeting?' },
+    { name: 'phone', label: 'Phone Number', type: 'tel', required: false, placeholder: '+1 555 123 4567', hint: 'Optional — for phone interview' },
+    { name: 'website', label: 'Website', type: 'url', required: false, placeholder: 'https://...' },
+    { name: 'telegram', label: 'Telegram Handle', type: 'text', required: false, placeholder: '@handle' },
+  ];
+  renderFields(fields);
+}
+
+function updateProgress() {
+  const inputs = document.querySelectorAll('#formFields input[required], #formFields select[required], #formFields textarea[required]');
+  const filled = Array.from(inputs).filter(i => i.value.trim()).length;
+  const pct = inputs.length ? Math.round((filled / inputs.length) * 100) : 0;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressPct').textContent = pct + '%';
+}
+
+async function handleSubmit(e) {
+  e.preventDefault();
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Submitting...';
+  const formData = {};
+  const fd = new FormData(e.target);
+  for (const [k, v] of fd.entries()) formData[k] = v;
+  const applicantName = formData.applicant_name || formData.name || 'Applicant';
+  const applicantEmail = formData.applicant_email || formData.email || '';
+  try {
+    const res = await fetch(`${API_BASE}/api/orgs/${orgSlug}/apply`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ applicant_name: applicantName, applicant_email: applicantEmail, applicant_type: 'human', form_data: formData }),
+    });
+    if (!res.ok) throw new Error('Submit failed');
+    const data = await res.json();
+    submittedAppId = data.application_id;
+    document.getElementById('applyForm').style.display = 'none';
+    document.querySelector('.progress-wrap').style.display = 'none';
+    document.getElementById('submitSuccess').style.display = 'block';
+    document.getElementById('interviewLink').href = `/interview/?app=${data.application_id}`;
+    const phoneVal = formData.phone || formData.phone_number || '';
+    if (phoneVal) document.getElementById('phoneForCall').value = phoneVal;
+  } catch (err) {
+    btn.disabled = false;
+    btn.innerHTML = 'Submit Application <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>';
+    alert('Failed to submit. Please try again.');
+  }
+}
+
+function selectMethod(method) {
+  interviewMethod = method;
+  document.getElementById('choiceBrowser').classList.toggle('selected', method === 'browser');
+  document.getElementById('choicePhone').classList.toggle('selected', method === 'phone');
+  document.getElementById('phoneInputWrap').classList.toggle('show', method === 'phone');
+  const link = document.getElementById('interviewLink');
+  link.textContent = method === 'browser' ? 'Start Voice Interview' : 'Call Me Now';
+}
+
+function startInterview(e) {
+  if (interviewMethod === 'browser') return true;
+  e.preventDefault();
+  const phone = document.getElementById('phoneForCall').value.trim();
+  if (!phone) { alert('Please enter your phone number.'); return false; }
+  const link = document.getElementById('interviewLink');
+  link.style.pointerEvents = 'none'; link.style.opacity = '0.5'; link.textContent = 'Initiating call...';
+  fetch(`${API_BASE}/api/applications/${submittedAppId}/call`, {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ phone_number: phone }),
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.error) throw new Error(data.error);
+    link.style.display = 'none';
+    document.getElementById('callStatus').style.display = 'block';
+    setTimeout(() => { window.location.href = '/thanks/'; }, 60000);
+  })
+  .catch(err => {
+    link.style.pointerEvents = ''; link.style.opacity = ''; link.textContent = 'Call Me Now';
+    alert('Failed to initiate call: ' + err.message);
+  });
+  return false;
+}
+
+function copyBlock(btn) {
+  const pre = btn.previousElementSibling;
+  navigator.clipboard.writeText(pre.textContent.trim());
+  btn.innerHTML = '✓ Copied'; btn.classList.add('copied');
+  setTimeout(() => { btn.innerHTML = 'Copy'; btn.classList.remove('copied'); }, 2000);
+}
+
+loadForm();
+</script>
+</body>
+</html>
