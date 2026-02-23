@@ -768,10 +768,10 @@ POST ${API}/api/applications/{application_id}/agent-answers
 Content-Type: application/json
 
 {
-  "answers": ["Answer 1...", "Answer 2...", "Answer 3...", "Answer 4...", "Answer 5..."]
+  "answers": ["Answer 1...", "Answer 2...", ...(one per question)]
 }
 
-Ask the user for their project details before starting. Give detailed, authentic answers to the interview questions based on what the user tells you.`,
+IMPORTANT: The interview returns 6 contextual questions tailored to the applicant's project stage and details. Read each question carefully — they reference what was submitted. Ask the user for their project details before starting. Give detailed, authentic answers based on what the user tells you.`,
 
   chatgpt: `I need you to apply to White Monkey (a Web3 consulting firm for APAC markets) on my behalf using their API.
 
@@ -783,7 +783,7 @@ Here's the process — make HTTP requests for each step:
 
 3. POST ${API}/api/applications/{id}/agent-answers with an "answers" array responding to each question
 
-Ask me for my project details first, then execute all 3 steps. For the interview, write thoughtful answers based on what I tell you — don't just repeat my words, expand on them like you're pitching to a consulting firm.`,
+Ask me for my project details first, then execute all 3 steps. The interview returns 6 contextual questions tailored to my project — read them carefully and write thoughtful answers based on what I tell you. Don't just repeat my words, expand on them like you're pitching to a consulting firm.`,
 
   gemini: `Help me apply to White Monkey, a Web3 consulting firm specializing in China & APAC market entry.
 
@@ -800,7 +800,7 @@ Step 3 — Submit answers:
 POST ${API}/api/applications/{application_id}/agent-answers
 Body: { "answers": ["...", "...", "..."] }
 
-First ask me about my project, then complete all 3 steps. Write compelling interview answers that demonstrate real understanding of APAC markets.`
+First ask me about my project, then complete all 3 steps. You'll get 6 contextual questions tailored to the application — answer each one with compelling detail that demonstrates real understanding of APAC markets.`
 };
 
 // Populate prompt previews
